@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="004-update-pto-balances-table" author="system">
+        <modifyDataType tableName="pto_balances" columnName="current_balance" newDataType="decimal(5,2)"/>
+        <modifyDataType tableName="pto_balances" columnName="carry_forward_balance" newDataType="decimal(5,2)"/>
+        
+        <addDefaultValue tableName="pto_balances" columnName="current_balance" defaultValue="0.00"/>
+        <addDefaultValue tableName="pto_balances" columnName="carry_forward_balance" defaultValue="0.00"/>
+    </changeSet>
+
+</databaseChangeLog> 

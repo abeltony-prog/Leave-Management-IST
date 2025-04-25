@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: leave_db
+    environment:
+      POSTGRES_DB: leave_management
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432' 
+    networks:
+      - leave_network
+
+  backend:
+    build:
+      context: ./leave-management-be
+      dockerfile: Dockerfile
+    container_name: leave_backend
+    image: testingperson250/leave-management-be:latest
+    depends_on:
+      - postgres-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/leave_management
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate # or update, depending on Liquibase setup
+      SPRING_LIQUIBASE_ENABLED: 'true' # Ensure Liquibase runs
+      JWT_SECRET: ${JWT_SECRET:-f1b42b8aa82ef17165bd98d9a7f09546352b25126d3731019f5afbd8d623d8028f20681aad6bd38440d20753a6c53ddc3e03aa5a28cc0293d92dffb50ae97cc7a1557f27020ccced884a83fc2a16846ea785eef03ab4c881a561deaba0f306a60217dd826779bd8bfaba0f09e92a4cbc49714a457934dc461b9fbf65b66168942935e0f798bf9026278ff670f66c1eb3dd9b105329635980716b3f1ecb248298855314ddedd68db91b09c1d6515013ed5f19da8b8392a29e5418fc4eb54a2741e1a3a97b23d4b0cc8535024b720fa77e40044c371673f4dd155fab152907060ad2d2ecfa26ce4ffd748b888a3e4429051313852271622daff31174290b35adcc} # Use default from application.properties or override via env
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
+    ports:
+      - '8080:8080'
+    networks:
+      - leave_network
+
+  frontend:
+    build:
+      context: ./leave-flow-frontend
+      dockerfile: Dockerfile
+    container_name: leave_frontend
+    image: testingperson250/leave-flow-frontend:latest
+    ports:
+      - '8081:80' 
+    depends_on:
+      - backend
+    networks:
+      - leave_network
+
+volumes:
+  postgres_data:
+
+networks:
+  leave_network:
+    driver: bridge

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="003-create-pto-balances-table" author="system">
+        <createTable tableName="pto_balances">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_pto_balance_user" references="users(id)"/>
+            </column>
+            <column name="current_balance" type="decimal(5,2)" defaultValue="0.00">
+                <constraints nullable="false"/>
+            </column>
+            <column name="carry_forward_balance" type="decimal(5,2)" defaultValue="0.00">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_accrual_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="year" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="pto_balances" indexName="idx_pto_balance_user_year">
+            <column name="user_id"/>
+            <column name="year"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog> 
