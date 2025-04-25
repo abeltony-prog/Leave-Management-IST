@@ -27,6 +27,15 @@ Registration now defaults missing `department`, `team`, and `msProfilePictureUrl
 - `JWT_SECRET`
 - `JWT_EXPIRATION`
 
+### Microsoft Authentication (MSAL)
+
+The frontend is configured to use Microsoft Authentication Library (MSAL) for Azure AD login. The configuration details (Client ID, Tenant ID, etc.) are located in `leave-frontend-be/src/lib/msalConfig.ts`.
+
+- **Sign-in:** A "Sign in with Microsoft" button is available on the Login tab.
+- **User Check:** After MSAL login, the app checks if the user exists in the local database. If yes, it prompts for password entry on the login tab. If no, it pre-fills the registration form.
+- **Domain Restriction:** In production builds (`npm run build`), logins are restricted to users with an `@ist.com` email address.
+- **Avatar:** The user's Microsoft profile picture is automatically fetched via the Graph API and displayed as their avatar on the profile page.
+
 ## Running the Application with Docker Compose
 
 This is the recommended way to run the application for development and testing.
