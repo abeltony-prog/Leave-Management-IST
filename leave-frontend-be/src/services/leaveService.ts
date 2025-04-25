@@ -111,5 +111,5 @@ export const exportLeavesToCsv = async (filters?: LeaveFilters): Promise<void> =
   });
 
   const date = new Date().toISOString().split('T')[0];
-  saveAs(response.data, `leave-report-${date}.csv`);
+  saveAs(response.data, `leave-report-${date}.xlsx`);
 };

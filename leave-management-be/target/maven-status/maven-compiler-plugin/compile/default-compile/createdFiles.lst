@@ -20,7 +20,6 @@ com/ist/leave/controller/AdminLeaveRequestController.class
 com/ist/leave/controller/LeaveRequestController.class
 com/ist/leave/config/SecurityConfig.class
 com/ist/leave/dto/LeaveRequestDto$LeaveRequestDtoBuilder.class
-com/ist/leave/security/JwtService$1.class
 com/ist/leave/entity/LeaveRequest.class
 com/ist/leave/dto/AuthenticationRequest$AuthenticationRequestBuilder.class
 com/ist/leave/controller/LeaveReportController.class
@@ -41,6 +40,5 @@ com/ist/leave/service/LeaveReportService.class
 com/ist/leave/dto/LeaveRequestResponseDto.class
 com/ist/leave/controller/UserController.class
 com/ist/leave/entity/User.class
-com/ist/leave/controller/OAuth2Controller.class
 com/ist/leave/security/CustomUserDetailsService.class
 com/ist/leave/event/LeaveRequestStatusChangedEvent.class
