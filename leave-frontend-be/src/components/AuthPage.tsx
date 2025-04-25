@@ -1,6 +1,5 @@
-
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -17,6 +16,10 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useMsal } from '@azure/msal-react';
+import { loginRequest } from '../lib/msalConfig.ts';
+import axiosInstance from '@/lib/axios';
+import { toast } from '@/components/ui/sonner';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -42,6 +45,7 @@ type RegisterValues = z.infer<typeof registerSchema>;
 export const AuthPage = () => {
   const { isAuthenticated, login, register, isLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<string>('login');
+  const { instance } = useMsal();
   
   const loginForm = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -72,6 +76,35 @@ export const AuthPage = () => {
   
   const onRegisterSubmit = async (data: RegisterValues) => {
     await register(data.name, data.email, data.password);
+  };
+
+  const signInWithMsal = async () => {
+    try {
+      const result = await instance.loginPopup(loginRequest);
+      const email = result.account?.username;
+      const name = result.account?.name || '';
+      if (!email) throw new Error('No email from Microsoft account');
+      // Domain restriction in production
+      if (import.meta.env.PROD && !email.endsWith('@ist.com')) {
+        toast.error('Only @ist.com emails allowed in production');
+        return;
+      }
+      // Check if user exists in backend
+      const { data: exists } = await axiosInstance.get<boolean>('/auth/user-exists', { params: { email } });
+      if (exists) {
+        toast.success('Please enter your password to login');
+        setActiveTab('login');
+        loginForm.setValue('email', email);
+      } else {
+        toast.info('Please complete registration');
+        setActiveTab('register');
+        registerForm.setValue('email', email);
+        registerForm.setValue('name', name);
+      }
+    } catch (error) {
+      console.error('MSAL login error:', error);
+      toast.error('Microsoft login failed');
+    }
   };
 
   return (
@@ -154,6 +187,15 @@ export const AuthPage = () => {
                     </Button>
                   </form>
                 </Form>
+                <div className="my-4 border-t" />
+                <Button 
+                  variant="outline" 
+                  className="w-full" 
+                  onClick={signInWithMsal} 
+                  disabled={isLoading}
+                >
+                  Sign in with Microsoft
+                </Button>
               </CardContent>
             </Card>
           </TabsContent>

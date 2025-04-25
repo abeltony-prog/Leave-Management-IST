@@ -106,4 +106,8 @@ public class AuthenticationService {
                 .usedLeaveDays(usedDays)
                 .build();
     }
+
+    public boolean userExists(String email) {
+        return userRepository.existsByEmail(email);
+    }
 } 
