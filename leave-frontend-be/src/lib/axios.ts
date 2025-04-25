@@ -2,7 +2,10 @@ import axios from 'axios';
 import { toast } from '@/components/ui/sonner';
 
 // Set base URL from environment variable or default to localhost
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+const defaultHost = 'http://localhost:8080';
+const rawUrl = import.meta.env.VITE_API_URL || '';
+const envBase = rawUrl.replace(/\/$/, '') || defaultHost;
+const API_URL = envBase.endsWith('/api/v1') ? envBase : `${envBase}/api/v1`;
 
 const axiosInstance = axios.create({
   baseURL: API_URL,

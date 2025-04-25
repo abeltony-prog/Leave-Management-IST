@@ -1,6 +1,6 @@
 # Leave Management System
 
-This project consists of a Spring Boot backend (`leave-management-be`) and a React frontend (`leave-flow-frontend`) for managing employee leave requests.
+This project consists of a Spring Boot backend (`leave-management-be`) and a React frontend (`leave-frontend-be`) for managing employee leave requests.
 
 ## Prerequisites
 

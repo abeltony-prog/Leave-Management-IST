@@ -38,7 +38,7 @@ services:
 
   frontend:
     build:
-      context: ./leave-flow-frontend
+      context: ./leave-frontend-be
       dockerfile: Dockerfile
     container_name: leave_frontend
     image: testingperson250/leave-flow-frontend:latest
