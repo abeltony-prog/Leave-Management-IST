@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/api/reports")
+@RequestMapping("/api/v1/reports")
 @RequiredArgsConstructor
 public class LeaveReportController {
 
     private final LeaveReportService leaveReportService;
 
-    @GetMapping("/leave")
+    @GetMapping(value = "/leave", produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     public ResponseEntity<byte[]> downloadLeaveReport(
             @RequestParam(required = false) String department,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
@@ -31,8 +31,8 @@ public class LeaveReportController {
         byte[] reportData = leaveReportService.generateLeaveReport(department, startDate, endDate, leaveType);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType("text/csv"));
-        headers.setContentDispositionFormData("attachment", "leave_report.csv");
+        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        headers.setContentDispositionFormData("attachment", "leave_report.xlsx");
 
         return ResponseEntity.ok()
                 .headers(headers)
