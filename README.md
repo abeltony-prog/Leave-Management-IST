@@ -65,6 +65,7 @@ This is the recommended way to run the application for development and testing.
 
     - **Frontend:** Open your web browser and navigate to `http://localhost:8081`
     - **Backend API:** The backend API is accessible at `http://localhost:8080` (e.g., `http://localhost:8080/api/v1/...`)
+    - **Report Export Endpoint:** `GET http://localhost:8080/api/v1/reports/leave` (requires `ADMIN` authority)
 
 5.  **Stopping the Application:**
     To stop the containers, run:
