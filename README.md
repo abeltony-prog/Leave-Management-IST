@@ -7,6 +7,26 @@ This project consists of a Spring Boot backend (`leave-management-be`) and a Rea
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/) (Usually included with Docker Desktop)
 
+## Configuration
+
+### Frontend
+
+In the `leave-frontend-be` directory, create a `.env` file to customize the frontend API root URL (defaults to `http://localhost:8080/api/v1`):
+
+```bash
+# In the project root
+cat <<EOF > leave-frontend-be/.env
+VITE_API_URL=http://localhost:8080/api/v1
+EOF
+```
+
+### Backend
+
+Registration now defaults missing `department`, `team`, and `msProfilePictureUrl` fields to empty strings, so you only need to enter name, email, and password. The backend still honors the environment variables defined in `docker-compose.yml` such as:
+
+- `JWT_SECRET`
+- `JWT_EXPIRATION`
+
 ## Running the Application with Docker Compose
 
 This is the recommended way to run the application for development and testing.
