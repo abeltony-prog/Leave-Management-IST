@@ -91,22 +91,22 @@ This is the recommended way to run the application for development and testing.
 
 If pre-built images are available on Docker Hub, you can modify the `docker-compose.yml` file to use `image:` instead of `build:` for the `backend` and `frontend` services.
 
-- **Backend Image:** `your-dockerhub-username/leave-management-be:latest` (Replace with actual image name)
-- **Frontend Image:** `your-dockerhub-username/leave-flow-frontend:latest` (Replace with actual image name)
+- **Backend Image:** `testingperson250/leave-management-be:latest`
+- **Frontend Image:** `testingperson250/leave-flow-frontend:latest`
 
 To push the images manually after building locally:
 
 ```bash
 # Build images locally (if not already done by docker-compose up --build)
-docker build -t your-dockerhub-username/leave-management-be:latest ./leave-management-be
-docker build -t your-dockerhub-username/leave-flow-frontend:latest ./leave-flow-frontend
+docker build -t testingperson250/leave-management-be:latest ./leave-management-be
+docker build -t testingperson250/leave-flow-frontend:latest ./leave-flow-frontend
 
 # Login to Docker Hub (enter credentials when prompted)
 docker login
 
 # Push images
-docker push your-dockerhub-username/leave-management-be:latest
-docker push your-dockerhub-username/leave-flow-frontend:latest
+docker push testingperson250/leave-management-be:latest
+docker push testingperson250/leave-flow-frontend:latest
 ```
 
-Remember to replace `your-dockerhub-username` with your actual Docker Hub username.
+Note: These images are published under the `testingperson250` Docker Hub namespace.
