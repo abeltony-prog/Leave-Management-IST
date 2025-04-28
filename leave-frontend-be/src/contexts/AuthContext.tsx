@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance from '@/lib/axios';
 import { toast } from '@/components/ui/sonner';
 import { jwtDecode } from 'jwt-decode';
-import { useMsal } from '@azure/msal-react';
-import { loginRequest, graphConfig } from '@/lib/msalConfig';
 
 // Define the backend DTO structure
 type UserProfileDto = {
@@ -59,8 +57,6 @@ type AuthProviderProps = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  // MSAL instance for Graph calls
-  const { instance } = useMsal();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
@@ -83,27 +79,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         totalLeaveAllowance: profile.totalLeaveAllowance,
         usedLeaveDays: profile.usedLeaveDays,
       };
-      // Attempt to fetch MS Graph profile photo
-      if (instance) {
-        try {
-          const tokenResponse = await instance.acquireTokenSilent(loginRequest);
-          const photoResponse = await fetch(graphConfig.graphPhotoEndpoint, {
-            headers: { Authorization: `Bearer ${tokenResponse.accessToken}` },
-          });
-          if (photoResponse.ok) {
-            const blob = await photoResponse.blob();
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              fetchedUser.profilePictureUrl = reader.result as string;
-              setUser(fetchedUser);
-              localStorage.setItem('user', JSON.stringify(fetchedUser));
-            };
-            reader.readAsDataURL(blob);
-          }
-        } catch (e) {
-          console.warn('Failed to fetch MS Graph profile photo', e);
-        }
-      }
       // Store fetched user in localStorage
       localStorage.setItem('user', JSON.stringify(fetchedUser));
       return fetchedUser;

@@ -1,6 +1,6 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
 
@@ -27,11 +27,7 @@ const ProfilePage = () => {
         <CardHeader>
           <CardTitle className='flex items-center gap-4'>
             <Avatar className='h-16 w-16'>
-              {user.profilePictureUrl ? (
-                <AvatarImage src={user.profilePictureUrl} alt={user.name} />
-              ) : (
-                <AvatarFallback className='text-2xl'>{getInitials(user.name)}</AvatarFallback>
-              )}
+              <AvatarFallback className='text-2xl'>{getInitials(user.name)}</AvatarFallback>
             </Avatar>
             <div>
               <span className='text-xl font-semibold'>{user.name}</span>

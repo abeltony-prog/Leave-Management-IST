@@ -146,10 +146,10 @@ const AdminLeaveRequests = () => {
       }
 
       await exportLeavesToCsv(filters);
-      toast.success('Excel report downloaded successfully');
+      toast.success('CSV report downloaded successfully');
     } catch (error) {
       console.error('Failed to export CSV:', error);
-      toast.error('Failed to export Excel report');
+      toast.error('Failed to export CSV report');
     }
   };
 
@@ -394,7 +394,7 @@ const AdminLeaveRequests = () => {
                     onClick={handleExportCsv}
                   >
                     <Download className='mr-2 h-4 w-4' />
-                    Export Excel
+                    Export CSV
                   </Button>
                 </div>
               </form>

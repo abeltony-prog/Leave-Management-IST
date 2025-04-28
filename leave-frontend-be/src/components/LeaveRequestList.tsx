@@ -25,6 +25,7 @@ type LeaveRequest = {
   uploadedDocumentUrl: string | null;
   createdAt: string;
   updatedAt: string;
+  department: string;
 };
 
 const LeaveRequestList = () => {
@@ -157,9 +158,9 @@ const LeaveRequestList = () => {
                     <div className='mb-4 md:mb-0'>
                       <div className='flex items-center gap-2'>
                         <h3 className='font-medium'>{request.leaveType} Leave</h3>
-                        <Badge variant='secondary' className={getStatusBadgeColor(request.status)}>
-                          {request.status}
-                        </Badge>
+                      </div>
+                      <div className='mt-2'>
+                        <p className='font-medium'>{request.userFullName.split(' ')[0]}</p>
                       </div>
                       <div className='mt-1 flex items-center text-sm text-muted-foreground'>
                         <Calendar className='mr-1 h-3 w-3' />
@@ -208,6 +209,11 @@ const LeaveRequestList = () => {
               <DialogTitle>Leave Request Details</DialogTitle>
             </DialogHeader>
             <div className='space-y-4'>
+              <div>
+                <p className='text-sm text-muted-foreground'>Employee</p>
+                <p className='font-medium'>{selectedRequest.userFullName.split(' ')[0]}</p>
+                <p className='text-xs text-muted-foreground'>{selectedRequest.department}</p>
+              </div>
               <div className='grid grid-cols-2 gap-4'>
                 <div>
                   <p className='text-sm text-muted-foreground'>Leave Type</p>
