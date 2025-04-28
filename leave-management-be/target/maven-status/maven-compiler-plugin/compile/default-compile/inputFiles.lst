@@ -4,6 +4,7 @@
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/service/LeaveRequestService.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/controller/LeaveRequestController.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/service/PTOService.java
+/Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/service/UserService.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/event/LeaveRequestStatusChangedEvent.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/entity/User.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/security/JwtService.java
@@ -29,6 +30,7 @@
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/config/SecurityConfig.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/dto/LeaveRequestResponseDto.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/dto/UserProfileDto.java
+/Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/dto/UpdateUserRoleDto.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/controller/AuthenticationController.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/dto/AuthenticationResponse.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/service/FileStorageService.java

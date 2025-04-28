@@ -7,35 +7,6 @@ This project consists of a Spring Boot backend (`leave-management-be`) and a Rea
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/) (Usually included with Docker Desktop)
 
-## Configuration
-
-### Frontend
-
-In the `leave-frontend-be` directory, create a `.env` file to customize the frontend API root URL (defaults to `http://localhost:8080/api/v1`):
-
-```bash
-# In the project root
-cat <<EOF > leave-frontend-be/.env
-VITE_API_URL=http://localhost:8080/api/v1
-EOF
-```
-
-### Backend
-
-Registration now defaults missing `department`, `team`, and `msProfilePictureUrl` fields to empty strings, so you only need to enter name, email, and password. The backend still honors the environment variables defined in `docker-compose.yml` such as:
-
-- `JWT_SECRET`
-- `JWT_EXPIRATION`
-
-### Microsoft Authentication (MSAL)
-
-The frontend is configured to use Microsoft Authentication Library (MSAL) for Azure AD login. The configuration details (Client ID, Tenant ID, etc.) are located in `leave-frontend-be/src/lib/msalConfig.ts`.
-
-- **Sign-in:** A "Sign in with Microsoft" button is available on the Login tab.
-- **User Check:** After MSAL login, the app checks if the user exists in the local database. If yes, it prompts for password entry on the login tab. If no, it pre-fills the registration form.
-- **Domain Restriction:** In production builds (`npm run build`), logins are restricted to users with an `@ist.com` email address.
-- **Avatar:** The user's Microsoft profile picture is automatically fetched via the Graph API and displayed as their avatar on the profile page.
-
 ## Running the Application with Docker Compose
 
 This is the recommended way to run the application for development and testing.
