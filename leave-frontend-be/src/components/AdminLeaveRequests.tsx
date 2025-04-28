@@ -187,12 +187,12 @@ const AdminLeaveRequests = () => {
 
   const handleDownloadDocument = async (request: LeaveRequest) => {
     try {
-      if (!request.documentUrl) {
+      if (!request.uploadedDocumentUrl) {
         toast.error('No document available for download');
         return;
       }
 
-      await downloadLeaveDocument(request.id, `leave-document-${request.id}.pdf`);
+      await downloadLeaveDocument(request);
 
       toast.success('Document downloaded successfully');
     } catch (error) {
@@ -431,9 +431,10 @@ const AdminLeaveRequests = () => {
                 className='grid grid-cols-12 gap-4 rounded-lg border p-4 shadow-sm'
               >
                 <div className='col-span-3'>
-                  <div className='font-medium'>{request.userName}</div>
+                  <div className='font-medium'>{request.userFullName}</div>
                   <div className='text-xs text-muted-foreground'>
-                    {request.department || 'No department'}
+                    {request.department || 'No department'}<br />
+                    {request.team || 'No team'}
                   </div>
                 </div>
                 <div className='col-span-2'>
@@ -489,9 +490,10 @@ const AdminLeaveRequests = () => {
                 <div className='grid grid-cols-2 gap-4'>
                   <div>
                     <p className='text-sm text-muted-foreground'>Employee</p>
-                    <p className='font-medium'>{selectedRequest.userName}</p>
+                    <p className='font-medium'>{selectedRequest.userFullName}</p>
                     <p className='text-xs text-muted-foreground'>
-                      {selectedRequest.department || 'No department'}
+                      {selectedRequest.department || 'No department'}<br />
+                      {selectedRequest.team || 'No team'}
                     </p>
                   </div>
                   <div>
@@ -527,11 +529,11 @@ const AdminLeaveRequests = () => {
                   <p className='mt-1 rounded-md bg-muted p-3 text-sm'>{selectedRequest.reason}</p>
                 </div>
 
-                {selectedRequest.adminComment && (
+                {selectedRequest.comment && (
                   <div>
                     <p className='text-sm text-muted-foreground'>Admin Comment</p>
                     <p className='mt-1 rounded-md bg-muted p-3 text-sm'>
-                      {selectedRequest.adminComment}
+                      {selectedRequest.comment}
                     </p>
                   </div>
                 )}
@@ -541,14 +543,14 @@ const AdminLeaveRequests = () => {
                     Requested on {format(new Date(selectedRequest.createdAt), 'MMM d, yyyy')}
                   </p>
 
-                  {selectedRequest.documentUrl && (
+                  {selectedRequest.uploadedDocumentUrl && (
                     <Button
                       variant='outline'
                       size='sm'
                       onClick={() => handleDownloadDocument(selectedRequest)}
                       className='flex items-center gap-1'
                     >
-                      <Download className='h-4 w-4' />
+                      <Download className='mr-1 h-4 w-4' />
                       Download Document
                     </Button>
                   )}
@@ -581,7 +583,7 @@ const AdminLeaveRequests = () => {
               <Form {...statusForm}>
                 <form onSubmit={statusForm.handleSubmit(handleUpdateStatus)} className='space-y-4'>
                   <div className='space-y-2'>
-                    <p className='font-medium'>{selectedRequest.userName}</p>
+                    <p className='font-medium'>{selectedRequest.userFullName}</p>
                     <p className='text-sm text-muted-foreground'>
                       {selectedRequest.leaveType} Leave:{' '}
                       {format(new Date(selectedRequest.startDate), 'MMM dd')} -{' '}

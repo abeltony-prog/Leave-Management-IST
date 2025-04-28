@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -11,6 +10,7 @@ import {
   User,
   X,
   ChevronDown,
+  Users,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -57,6 +57,12 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
       name: 'All Requests',
       path: '/admin/leave-requests',
       icon: <FileText className="h-5 w-5" />,
+      roles: ['ADMIN'],
+    },
+    {
+      name: 'Users',
+      path: '/admin/users',
+      icon: <User className="h-5 w-5" />,
       roles: ['ADMIN'],
     },
   ];

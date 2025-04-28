@@ -8,7 +8,7 @@ export type LeaveStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 export interface LeaveRequest {
   id: number;
   userId: number;
-  userName: string;
+  userFullName: string;
   leaveType: LeaveType;
   startDate: string;
   endDate: string;
@@ -20,6 +20,7 @@ export interface LeaveRequest {
   createdAt: string;
   updatedAt: string;
   department?: string;
+  team?: string;
 }
 
 export interface LeaveFormData {

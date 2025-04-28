@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +12,7 @@ import NewLeaveRequest from "./pages/NewLeaveRequest";
 import AdminLeaveRequestsPage from "./pages/AdminLeaveRequestsPage";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import AdminUsersPage from "./pages/AdminUsersPage";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +39,7 @@ const App = () => (
             {/* Admin only routes */}
             <Route element={<ProtectedRoute requireAdmin={true} />}>
               <Route path="/admin/leave-requests" element={<AdminLeaveRequestsPage />} />
+              <Route path="/admin/users" element={<AdminUsersPage />} />
             </Route>
 
             {/* Catch-all route */}
