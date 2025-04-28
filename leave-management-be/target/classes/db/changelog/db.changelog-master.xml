@@ -8,5 +8,6 @@
     <include file="db/changelog/changes/001-initial-schema.xml" relativeToChangelogFile="false"/>
     <include file="db/changelog/changes/002-add-comment-to-leave-requests.xml" relativeToChangelogFile="false"/>
     <include file="db/changelog/changes/003-create-pto-balances-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/changes/004-add-2fa-fields.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog> 

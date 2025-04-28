@@ -49,6 +49,13 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String team;
 
+    // 2FA support fields
+    @Column(name = "two_factor_enabled", nullable = false)
+    private boolean twoFactorEnabled;
+
+    @Column(name = "two_factor_secret")
+    private String twoFactorSecret;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

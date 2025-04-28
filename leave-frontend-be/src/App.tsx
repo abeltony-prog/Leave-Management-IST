@@ -11,6 +11,7 @@ import LeaveRequests from "./pages/LeaveRequests";
 import NewLeaveRequest from "./pages/NewLeaveRequest";
 import AdminLeaveRequestsPage from "./pages/AdminLeaveRequestsPage";
 import Profile from "./pages/Profile";
+import TwoFactorPage from "./pages/TwoFactorPage";
 import NotFound from "./pages/NotFound";
 import AdminUsersPage from "./pages/AdminUsersPage";
 
@@ -26,6 +27,7 @@ const App = () => (
           <Routes>
             {/* Public routes */}
             <Route path="/login" element={<Login />} />
+            <Route path="/2fa-verify" element={<TwoFactorPage />} />
             <Route path="/" element={<Navigate to="/login" replace />} />
 
             {/* Protected routes for all authenticated users */}

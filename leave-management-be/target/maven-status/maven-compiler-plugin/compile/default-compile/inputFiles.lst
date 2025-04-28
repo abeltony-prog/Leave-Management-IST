@@ -1,4 +1,5 @@
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/service/LeaveReportService.java
+/Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/service/TwoFactorService.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/dto/RegisterRequest.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/service/AuthenticationService.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/service/LeaveRequestService.java
@@ -12,6 +13,7 @@
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/security/CustomUserDetailsService.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/entity/Role.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/controller/AdminLeaveRequestController.java
+/Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/dto/TwoFactorAuthRequest.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/security/JwtAuthenticationFilter.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/repository/PTOBalanceRepository.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/entity/LeaveType.java
@@ -24,6 +26,7 @@
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/repository/LeaveRequestRepository.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/entity/PTOBalance.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/dto/LeaveRequestApprovalDto.java
+/Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/controller/TwoFactorController.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/LeaveManagementApplication.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/specification/LeaveRequestSpecifications.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/controller/UserController.java
@@ -31,6 +34,7 @@
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/dto/LeaveRequestResponseDto.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/dto/UserProfileDto.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/dto/UpdateUserRoleDto.java
+/Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/dto/TwoFactorSetupResponse.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/controller/AuthenticationController.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/dto/AuthenticationResponse.java
 /Users/apple/Downloads/challenge-ai/leave-management-be/src/main/java/com/ist/leave/service/FileStorageService.java

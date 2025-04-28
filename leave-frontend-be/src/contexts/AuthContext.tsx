@@ -48,6 +48,9 @@ type AuthContextType = {
   logout: () => void;
   isAuthenticated: boolean;
   isAdmin: boolean;
+  twoFactorPending: boolean;
+  pendingEmail: string | null;
+  verifyTwoFactor: (code: number) => Promise<void>;
 };
 
 type AuthProviderProps = {
@@ -59,6 +62,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [twoFactorPending, setTwoFactorPending] = useState(false);
+  const [pendingEmail, setPendingEmail] = useState<string | null>(null);
   const navigate = useNavigate();
 
   // Helper to fetch user profile
@@ -134,13 +139,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.post<{ token: string }>('/auth/authenticate', {
+      const response = await axiosInstance.post<{ token?: string; twoFactorRequired: boolean }>('/auth/authenticate', {
         email,
         password,
       });
 
-      const { token } = response.data;
-      localStorage.setItem('token', token);
+      const { token, twoFactorRequired } = response.data;
+      // If 2FA is required, prompt for code
+      if (twoFactorRequired) {
+        setTwoFactorPending(true);
+        setPendingEmail(email);
+        navigate('/2fa-verify');
+        return;
+      }
+
+      localStorage.setItem('token', token as string);
 
       // IMPORTANT: Set token for subsequent requests BEFORE fetching profile
       axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -210,7 +223,36 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const isAuthenticated = !!user;
   const isAdmin = user?.role === 'ADMIN';
 
-  const value = {
+  // Complete login by verifying 2FA code
+  const verifyTwoFactor = async (code: number) => {
+    if (!pendingEmail) return;
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.post<{ token: string }>('/auth/2fa/authenticate', {
+        email: pendingEmail,
+        code,
+      });
+      const { token } = response.data;
+      localStorage.setItem('token', token);
+      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const loggedInUser = await fetchUserProfile();
+      if (loggedInUser) {
+        setUser(loggedInUser);
+        toast.success('Logged in successfully!');
+        navigate('/dashboard');
+      }
+      // Clear pending state
+      setTwoFactorPending(false);
+      setPendingEmail(null);
+    } catch (error) {
+      console.error('2FA verification failed:', error);
+      toast.error('Invalid authentication code');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const value: AuthContextType = {
     user,
     isLoading,
     login,
@@ -218,6 +260,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     logout,
     isAuthenticated,
     isAdmin,
+    twoFactorPending,
+    pendingEmail,
+    verifyTwoFactor,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

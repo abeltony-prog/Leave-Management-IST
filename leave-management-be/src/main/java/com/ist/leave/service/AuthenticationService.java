@@ -54,6 +54,7 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .twoFactorRequired(false)
                 .build();
     }
 
@@ -66,9 +67,16 @@ public class AuthenticationService {
         );
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow();
+        // If user has 2FA enabled, prompt for code instead of issuing token
+        if (user.isTwoFactorEnabled()) {
+            return AuthenticationResponse.builder()
+                    .twoFactorRequired(true)
+                    .build();
+        }
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .twoFactorRequired(false)
                 .build();
     }
 
