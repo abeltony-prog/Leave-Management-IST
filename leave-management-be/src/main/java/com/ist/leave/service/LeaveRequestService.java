@@ -148,6 +148,8 @@ public class LeaveRequestService {
                 .uploadedDocumentUrl(leaveRequest.getUploadedDocumentUrl())
                 .createdAt(leaveRequest.getCreatedAt())
                 .updatedAt(leaveRequest.getUpdatedAt())
+                .department(leaveRequest.getUser().getDepartment())
+                .team(leaveRequest.getUser().getTeam())
                 .build();
     }
 } 

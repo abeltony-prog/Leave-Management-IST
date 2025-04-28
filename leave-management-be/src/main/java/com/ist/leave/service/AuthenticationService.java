@@ -39,10 +39,6 @@ public class AuthenticationService {
         // If this is the first user, make them an ADMIN
         // Otherwise, use the role from the request or default to STAFF
         Role role = isFirstUser ? Role.ADMIN : (request.getRole() != null ? request.getRole() : Role.STAFF);
-        // Ensure non-nullable fields get defaults if not provided
-        String department = request.getDepartment() != null ? request.getDepartment() : "";
-        String team = request.getTeam() != null ? request.getTeam() : "";
-        String msProfilePictureUrl = request.getMsProfilePictureUrl() != null ? request.getMsProfilePictureUrl() : "";
         
         var user = User.builder()
                 .firstName(request.getFirstName())
@@ -50,9 +46,9 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(role)
-                .msProfilePictureUrl(msProfilePictureUrl)
-                .department(department)
-                .team(team)
+                .msProfilePictureUrl(request.getMsProfilePictureUrl())
+                .department(request.getDepartment())
+                .team(request.getTeam())
                 .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -105,9 +101,5 @@ public class AuthenticationService {
                 .totalLeaveAllowance(totalAllowance)
                 .usedLeaveDays(usedDays)
                 .build();
-    }
-
-    public boolean userExists(String email) {
-        return userRepository.existsByEmail(email);
     }
 } 

@@ -27,4 +27,6 @@ public class LeaveRequestResponseDto {
     private String uploadedDocumentUrl;
     private LocalDate createdAt;
     private LocalDate updatedAt;
+    private String department;
+    private String team;
 } 

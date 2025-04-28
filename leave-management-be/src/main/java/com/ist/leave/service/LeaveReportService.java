@@ -9,18 +9,18 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -55,42 +55,29 @@ public class LeaveReportService {
 
         List<LeaveRequest> leaveRequests = leaveRequestRepository.findAll(spec);
 
-        try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+             OutputStreamWriter writer = new OutputStreamWriter(outputStream)) {
 
-            Sheet sheet = workbook.createSheet("Leave Report");
-            sheet.setDefaultColumnWidth(20);
+            // Write CSV header
+            writer.write("Employee ID,Employee Name,Department,Leave Type,Start Date,End Date,Duration (days),Status\n");
 
-            // Create header row
-            String[] headers = {"Employee ID", "Employee Name", "Department", "Leave Type", "Start Date", "End Date", "Duration (days)", "Status"};
-            Row headerRow = sheet.createRow(0);
-            CellStyle headerStyle = workbook.createCellStyle();
-            Font headerFont = workbook.createFont();
-            headerFont.setBold(true);
-            headerStyle.setFont(headerFont);
-
-            for (int i = 0; i < headers.length; i++) {
-                Cell cell = headerRow.createCell(i);
-                cell.setCellValue(headers[i]);
-                cell.setCellStyle(headerStyle);
-            }
-
-            // Create data rows
-            int rowNum = 1;
+            // Write data rows
             for (LeaveRequest request : leaveRequests) {
                 User user = request.getUser();
-                Row row = sheet.createRow(rowNum++);
-
-                row.createCell(0).setCellValue(user.getId());
-                row.createCell(1).setCellValue(user.getFirstName() + " " + user.getLastName());
-                row.createCell(2).setCellValue(user.getDepartment());
-                row.createCell(3).setCellValue(request.getLeaveType().toString());
-                row.createCell(4).setCellValue(request.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
-                row.createCell(5).setCellValue(request.getEndDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
-                row.createCell(6).setCellValue(request.getDuration()); // Assuming getDuration returns a double
-                row.createCell(7).setCellValue(request.getStatus().toString());
+                writer.write(String.format("%s,%s %s,%s,%s,%s,%s,%.2f,%s\n",
+                    user.getId(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getDepartment(),
+                    request.getLeaveType(),
+                    request.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE),
+                    request.getEndDate().format(DateTimeFormatter.ISO_LOCAL_DATE),
+                    request.getDuration(),
+                    request.getStatus()
+                ));
             }
 
-            workbook.write(outputStream);
+            writer.flush();
             return outputStream.toByteArray();
 
         } catch (IOException e) {
